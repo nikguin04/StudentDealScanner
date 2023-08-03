@@ -1,0 +1,13 @@
+{
+    "modulesite": "sheerid",
+    "dealdata": [
+        {
+            "name": "Peacock",
+            "title": "An Exclusive Student Discount—Just for You",
+            "desc_long": "Save now! You’re working hard for your education—here’s a reward for all your effort. Get Peacock for only $1.99/mo for 12 months and stream hit movies, live sports, exclusive Originals, and so much more.\n\nStudent verification required. Eligibility restrictions apply. Terms apply; see http://www.peacocktv.com/offer-terms/student",
+            "discount_link_provider": "https://www.sheerid.com/shoppers/product/an-exclusive-student-discount-just-for-you/",
+            "discount_links": {"GET OFFER": "https://www.peacocktv.com/student?utm_source=sheerid_shoppers"},
+            "images": ["https://www.sheerid.com/shoppers/wp-content/uploads/sites/4/2023/06/peacock-logo-002-judith-florido-450x304.png"]
+        }
+    ]
+}
