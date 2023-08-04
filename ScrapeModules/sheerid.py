@@ -49,14 +49,15 @@ def ScrapeNextPage(jsnScrape, pagenum):
         discount_links = {}
         for link in details_div.findAll("div", "single-btn-wrapper"):
             ahref = link.contents[1]
-            discount_links[str(ahref.contents).strip()] = ahref['href']
+            discount_links[str(ahref.contents[0]).strip()] = ahref['href']
         jsnScrape['dealdata'].append({
             "name": citem['data-brands'],
-            "title": details_div.find("h1", "product_title").contents,
-            "desc_long": massReplaceStr(str(details_div.find("div", "woocommerce-product-details__short-description").contents), {"<p>":"", "</p>":"\n", "<br/>":"\n", "<h2>":"## ", "</h2>":"\n"}), # markdown readability
+            "title": details_div.find("h1", "product_title").contents[0],
+            "desc_long": massReplaceStr(str(details_div.find("div", "woocommerce-product-details__short-description").contents[1]), {"<p>":"", "</p>":"\n", "<br/>":"\n", "<h2>":"## ", "</h2>":"\n"}), # markdown readability
             "discount_link_provider": details_link,
             "discount_links": discount_links,
-            "images": [(details_div.find_all("img", "size-shop_single")[1]['src'] if details_div.find("img", "size-shop_single") != None else '')] # using find_all with index 1 because html parser sees no script as queryable html
+            "images": [(details_div.find_all("img", "size-shop_single")[1]['src'] if details_div.find("img", "size-shop_single") != None else '')], # using find_all with index 1 because html parser sees no script as queryable html
+            "category_unparsed": citem['data-industries']
         })
         print("Scraped data for: " + str(citem['data-brands'].encode("utf-8")))
 
