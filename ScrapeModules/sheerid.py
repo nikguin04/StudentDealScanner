@@ -10,9 +10,9 @@ useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML
 def StartScrape():
     pagenum = 1
     jsnScrape = {
-    "modulesite": "sheerid",
-    "dealdata": []
-}   
+        "modulesite": "sheerid",
+        "dealdata": []
+    }   
     result = False
     while not result:
         result = ScrapeNextPage(jsnScrape, pagenum)
@@ -30,8 +30,6 @@ def ScrapeNextPage(jsnScrape, pagenum):
     dealsdiv = soup.find("div", {"class": "products-wrapper"})
 
     if dealsdiv == None:
-        with open("sheerid_output.json", "w") as outfile:
-            outfile.write(json.dumps(jsnScrape, separators=(',', ':')))
         return True
     else :
         dealsdiv = dealsdiv.contents[1]
@@ -53,13 +51,14 @@ def ScrapeNextPage(jsnScrape, pagenum):
         jsnScrape['dealdata'].append({
             "name": citem['data-brands'],
             "title": details_div.find("h1", "product_title").contents[0],
-            "desc_long": massReplaceStr(str(details_div.find("div", "woocommerce-product-details__short-description").contents[1]), {"<p>":"", "</p>":"\n", "<br/>":"\n", "<h2>":"## ", "</h2>":"\n"}), # markdown readability
+            "desc_short": "unknown",
+            "desc_long": massReplaceStr(str(details_div.find("div", "woocommerce-product-details__short-description").contents[1]), {"<p>":"", "</p>":"\n", "<br/>":"\n", "<h2>":"## ", "</h2>":"\n", "<b>":"**", "</b>":"**"}), # markdown readability
             "discount_link_provider": details_link,
             "discount_links": discount_links,
             "images": [(details_div.find_all("img", "size-shop_single")[1]['src'] if details_div.find("img", "size-shop_single") != None else '')], # using find_all with index 1 because html parser sees no script as queryable html
             "category_unparsed": citem['data-industries']
         })
-        print("Scraped data for: " + str(citem['data-brands'].encode("utf-8")))
+        print("Scraped data for: " + str(citem['data-brands'].encode("utf-8")) + " (Sheerid)")
 
 def massReplaceStr(str, jsndict): 
     for key in jsndict.keys():
