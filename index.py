@@ -3,7 +3,7 @@ import json
 import os
 
 sys.path.append("ScrapeModules")
-import sheerid, studentbeans
+import sheerid, studentbeans, studiz
 
 if not os.path.isdir("Output"):
     os.mkdir("Output")
@@ -16,6 +16,10 @@ scrapeModules = {
     "Studentbeans": {
         "module": studentbeans,
         "function": "StartScrape"
+    },
+    "Studiz": {
+        "module": studiz,
+        "function": "StartScrape"
     }
 }
 
@@ -25,7 +29,7 @@ def init():
     for i in range(0, len(keys)): # print module names and key int indexes
         print(keys[i] + ": (" + str(i) + ")")    
 
-    moduleindex = int(input("Enter module to scrape (0-1): "))
+    moduleindex = int(input("Enter module to scrape (0-" + str(len(keys)-1) + "): "))
     print("Scraping data for " + keys[moduleindex])
     mod_func = getattr(scrapeModules[keys[moduleindex]]["module"], scrapeModules[keys[moduleindex]]["function"]) # get function
     json_result = mod_func()
